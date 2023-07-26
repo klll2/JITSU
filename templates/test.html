@@ -1,0 +1,51 @@
+<!--아직 작성중(연습)-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crawling Test</title>
+</head>
+<body>
+    <form method="POST" id="anm_mdf" name="anm_mdf" >
+        {% csrf_token %}
+            <label for="select1">Tag1</label>
+                <select id="select1" onchange="onSelectChange('select1', 'select2', 'select3')">
+                  {% for cat in cat_list %}
+                      <option value={{ cat }} {% if cat == cat_list.0 %}selected{% endif %}>{{ cat }}</option>
+                  {% endfor %}
+                </select>
+            <label for="select2">Tag2</label>
+                <select id="select2" onchange="onSelectChange('select2', 'select1', 'select3')">
+                  <option value="">None</option>
+                  {% for cat in cat_list %}
+                      <option value={{ cat }}>{{ cat }}</option>
+                  {% endfor %}
+                </select>
+            <label for="select3">Tag3</label>
+                <select id="select3" onchange="onSelectChange('select3', 'select1', 'select2')">
+                  <option value="">None</option>
+                  {% for cat in cat_list %}
+                      <option value={{ cat }} {% if cat == cat_list.0 %}selected{% endif %}>{{ cat }}</option>
+                  {% endfor %}
+                </select>
+            <button class="btn-primary" type="submit">Save</button>
+    </form>
+<script>
+  function onSelectChange(selectedId, disabledId1, disabledId2) {
+  const selectedValue = document.getElementById(selectedId).value;
+
+  // Disable selected option in other select fields
+  const disabledSelect1 = document.getElementById(disabledId1);
+  const disabledSelect2 = document.getElementById(disabledId2);
+
+  for (const option of disabledSelect1.options) {
+    option.disabled = option.value === selectedValue;
+  }
+
+  for (const option of disabledSelect2.options) {
+    option.disabled = option.value === selectedValue;
+  }
+}
+</script>
+</body>
+</html>
